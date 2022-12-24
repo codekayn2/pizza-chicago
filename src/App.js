@@ -8,6 +8,18 @@ import Sort from "./components/Sort/Sort";
 import PizzaBlock from "./components/PizzaBlock/PizzaBlock";
 
 const App = () => {
+  const [items, setItems] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch("https://63a632a2318b23efa7a5c07c.mockapi.io/items")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setItems(data);
+      });
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
@@ -19,7 +31,9 @@ const App = () => {
           </div>
           <h2 className="content__title">Всі піци</h2>
           <div className="content__items">
-        <PizzaBlock title="Мексиканська" price={500}/>
+            {items.map((obj) => (
+              <PizzaBlock key={obj.id} {...obj} />
+            ))}
           </div>
         </div>
       </div>
