@@ -16,10 +16,12 @@
 
       &:hover {
         background-color: darken(#f9f9f9, 2%);
+        scale: 1.1;
       }
 
       &:active {
         background-color: darken(#f9f9f9, 5%);
+
       }
 
       &.active {
