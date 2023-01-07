@@ -1,15 +1,38 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addItem, minusItem, removeItem, clearItems } from "../redux/slices/cartSlice";
+import {
+  addItem,
+  minusItem,
+  removeItem,
+  CartItem,
+} from "../redux/slices/cartSlice";
 
-const CartItem = ({ id, title, price, count, imageUrl, type,size }) => {
+type CartItemProps = {
+  id: string;
+  title: string;
+  price: number;
+  count: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+};
+
+const CartItemBlock: React.FC<CartItemProps> = ({
+  id,
+  title,
+  price,
+  count,
+  imageUrl,
+  type,
+  size,
+}) => {
   const dispatch = useDispatch();
 
   const onClickPlus = () => {
     dispatch(
       addItem({
         id,
-      })
+      } as CartItem)
     );
   };
 
@@ -23,9 +46,6 @@ const CartItem = ({ id, title, price, count, imageUrl, type,size }) => {
     }
   };
 
-  // const onClickClear = () => {
-  //   if(window.confirm("Очистити корзину?"))
-  // }
   return (
     <div className="cart__item">
       <div className="cart__item-img">
@@ -33,15 +53,18 @@ const CartItem = ({ id, title, price, count, imageUrl, type,size }) => {
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{type}, {size} см.</p>
+        <p>
+          {type}, {size} см.
+        </p>
       </div>
       <div className="cart__item-count">
-        <div
+        <button
+          disabled={count === 1}
           onClick={onClickMinus}
           className="button button--outline button--circle cart__item-count-minus"
         >
           <svg
-            Width="10"
+            width="10"
             height="10"
             viewBox="0 0 10 10"
             fill="none"
@@ -56,14 +79,14 @@ const CartItem = ({ id, title, price, count, imageUrl, type,size }) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b> {count} </b>
-        <div
+        <button
           onClick={onClickPlus}
           className="button button--outline button--circle cart__item-count-plus"
         >
           <svg
-            Width="10"
+            width="10"
             height="10"
             viewBox="0 0 10 10"
             fill="none"
@@ -78,7 +101,7 @@ const CartItem = ({ id, title, price, count, imageUrl, type,size }) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price * count} ₴ </b>
@@ -89,7 +112,7 @@ const CartItem = ({ id, title, price, count, imageUrl, type,size }) => {
           className="button button--outline button--circle"
         >
           <svg
-            Width="10"
+            width="10"
             height="10"
             viewBox="0 0 10 10"
             fill="none"
@@ -110,4 +133,7 @@ const CartItem = ({ id, title, price, count, imageUrl, type,size }) => {
   );
 };
 
-export default CartItem;
+export default CartItemBlock;
+function clsx(arg0: string): string | undefined {
+  throw new Error("Function not implemented.");
+}

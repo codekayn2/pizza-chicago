@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearItems, selectCart } from "../redux/slices/cartSlice";
 
-import CartEmpty from "./CartEmpty"
-import CartItem from "./CartItem";
+import CartEmpty from "../components/CartEmpty"
+import CartItem from "../components/CartItem";
 
-const Cart = () => {
+const Cart:React.FC = () => {
   const dispatch = useDispatch();
   const {totalPrice, items} = useSelector(selectCart);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const onClickClear = () => {
     if (window.confirm("Очистити корзину?")) {
@@ -58,7 +58,7 @@ const Cart = () => {
           </h2>
           <div onClick={onClickClear} className="cart__clear">
             <svg
-              Width="20"
+              width="20"
               height="20"
               viewBox="0 0 20 20"
               fill="none"
@@ -98,7 +98,7 @@ const Cart = () => {
           </div>
         </div>
         <div className="content__items">
-          {items.map((item) => (
+          {items.map((item: JSX.IntrinsicAttributes & { id: string; title: string; price: number; count: number; imageUrl: string; type: string; size: number; }) => (
             <CartItem key={item.id} {...item} />
           ))}
         </div>
@@ -117,7 +117,7 @@ const Cart = () => {
               className="button button--outline button--add go-back-btn"
             >
               <svg
-                Width="8"
+                width="8"
                 height="14"
                 viewBox="0 0 8 14"
                 fill="none"

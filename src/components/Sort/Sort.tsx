@@ -1,31 +1,41 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSort, setSort } from "../../redux/slices/filterSlice";
+import { selectSort, setSort, Sort, SortPropertyEnum } from "../../redux/slices/filterSlice";
 
-export const sortList = [
-  { name: "популярністю(DESC)", sortProperty: "rating" },
-  { name: "популярністю(ASC)", sortProperty: "-rating" },
-  { name: "ціною(DESC)", sortProperty: "price" },
-  { name: "ціною(ASC)", sortProperty: "-price" },
-  { name: "алфавіту(DESC)", sortProperty: "title" },
-  { name: "алфавіту(ASC", sortProperty: "-title" },
+type SortItem = {
+  name: string;
+  sortProperty: SortPropertyEnum;
+};
+
+type PopupClick = MouseEvent & {
+  path: Node[];
+};
+
+export const sortList: SortItem[] = [
+  { name: "популярністю(DESC)", sortProperty: SortPropertyEnum.RATING_DESC },
+  { name: "популярністю(ASC)", sortProperty: SortPropertyEnum.RATING_ASC },
+  { name: "ціною(DESC)", sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: "ціною(ASC)", sortProperty: SortPropertyEnum.PRICE_ASC},
+  { name: "алфавіту(DESC)", sortProperty: SortPropertyEnum.TITLE_DESC },
+  { name: "алфавіту(ASC", sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-const Sort = () => {
+const SortPopup = () => {
   const dispatch = useDispatch();
   const sort = useSelector(selectSort);
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = React.useState(false);
 
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: SortItem) => {
     dispatch(setSort(obj));
     setOpen(false);
   };
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as PopupClick;
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setOpen(false);
       }
     };
@@ -72,4 +82,4 @@ const Sort = () => {
   );
 };
 
-export default Sort;
+export default SortPopup;
