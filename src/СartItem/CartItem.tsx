@@ -1,11 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  addItem,
-  minusItem,
-  removeItem,
-  CartItem,
-} from "../redux/slices/cartSlice";
+import { addItem, minusItem, removeItem } from "../redux/cart/slice";
+import { CartItemRedux } from "../redux/cart/types";
+
 
 type CartItemProps = {
   id: string;
@@ -32,7 +29,7 @@ const CartItemBlock: React.FC<CartItemProps> = ({
     dispatch(
       addItem({
         id,
-      } as CartItem)
+      } as CartItemRedux)
     );
   };
 
@@ -133,7 +130,6 @@ const CartItemBlock: React.FC<CartItemProps> = ({
   );
 };
 
-export default CartItemBlock;
-function clsx(arg0: string): string | undefined {
-  throw new Error("Function not implemented.");
-}
+
+
+export default CartItemBlock

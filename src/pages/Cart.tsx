@@ -2,23 +2,28 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { clearItems, selectCart } from "../redux/slices/cartSlice";
 
-import CartEmpty from "../components/CartEmpty"
-import CartItem from "../components/CartItem";
+import { selectCart } from "../redux/cart/selectors";
+import CartEmpty from "../СartItem/CartEmpty";
+import CartItem from "../СartItem/CartItem";
+import { CartItemRedux } from "../redux/cart/types";
+import { clearItems } from "../redux/cart/slice";
 
-const Cart:React.FC = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
-  const {totalPrice, items} = useSelector(selectCart);
-  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+  const { totalPrice, items } = useSelector(selectCart);
+  const totalCount = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  );
 
   const onClickClear = () => {
     if (window.confirm("Очистити корзину?")) {
       dispatch(clearItems());
     }
   };
-  if(!totalPrice) {
-    return <CartEmpty/>
+  if (!totalPrice) {
+    return <CartEmpty />;
   }
   return (
     <div className="container container--cart">
@@ -98,9 +103,21 @@ const Cart:React.FC = () => {
           </div>
         </div>
         <div className="content__items">
-          {items.map((item: JSX.IntrinsicAttributes & { id: string; title: string; price: number; count: number; imageUrl: string; type: string; size: number; }) => (
-            <CartItem key={item.id} {...item} />
-          ))}
+          {items.map(
+            (
+              item: JSX.IntrinsicAttributes & {
+                id: string;
+                title: string;
+                price: number;
+                count: number;
+                imageUrl: string;
+                type: string;
+                size: number;
+              }
+            ) => (
+              <CartItem key={item.id} {...item} />
+            )
+          )}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
